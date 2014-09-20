@@ -1,5 +1,6 @@
 // File: Gulpfile.js
 'use strict';
+
 var gulp    = require('gulp'),
     connect = require('gulp-connect'),
     stylus  = require('gulp-stylus'),
@@ -41,14 +42,8 @@ gulp.task('html', function() {
   gulp.src('./app/**/*.html')
     .pipe(connect.reload());
 });
-// Vigila cambios que se produzcan en el código
-// y lanza las tareas relacionadas
-gulp.task('watch', function() {
-  gulp.watch(['./app/**/*.html'], ['html']);
-  gulp.watch(['./app/stylesheets/**/*.styl'], ['css']);
-  gulp.watch(['./app/scripts/**/*.js', './Gulpfile.js'], ['jshint']);
-});
-gulp.task('default', ['server', 'watch']);
+
+
 
 // Busca en las carpetas de estilos y javascript los archivos que hayamos creado
 // para inyectarlos en el index.html
@@ -71,11 +66,12 @@ gulp.task('wiredep', function () {
     .pipe(gulp.dest('./app'));
 });
 
+// Vigila cambios que se produzcan en el código
+// y lanza las tareas relacionadas
 gulp.task('watch', function() {
-
-  gulp.watch(['./app/stylesheets/**/*.styl'], ['css', 'inject']);
-  gulp.watch(['./app/scripts/**/*.js', './Gulpfile.js'], ['jshint', 'inject']);
+  gulp.watch(['./app/**/*.html'], ['html']);
+  gulp.watch(['./app/stylesheets/**/*.styl'], ['css','inject']);
+  gulp.watch(['./app/scripts/**/*.js', './Gulpfile.js'], ['jshint','inject']);
   gulp.watch(['./bower.json'], ['wiredep']);
 });
-
 gulp.task('default', ['server', 'inject', 'wiredep', 'watch']);
